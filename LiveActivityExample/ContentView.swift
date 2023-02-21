@@ -8,12 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    let activityManager: MyActivityManager = .shared
+    let locationManager: LocationManager = .shared
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Button {
+                try? activityManager.start(attributes: .init(), contentState: .init(locationText: "nil"))
+            } label: {
+                Text("라이브 액티비티 시작")
+            }
+            Button {
+                Task {
+                    await activityManager.end()
+                }
+            } label: {
+                Text("라이브 액티비티 종료")
+            }
+            Button {
+                locationManager.start()
+            } label: {
+                Text("로케이션 매니저 시작")
+            }
         }
         .padding()
     }
